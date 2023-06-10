@@ -1,8 +1,11 @@
+require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const productRoutes = require('./routes/productRoute');
-
 const app = express()
+
+const PORT = process.env.PORT || 5000
+const MONGO_URL = process.env.MONGO_URL
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
@@ -20,15 +23,13 @@ app.get('/blog', (req, res) => {
 });
 
 
-
-
 mongoose.set("strictQuery", false)
 mongoose.
-connect('mongodb+srv://admin:87654321@devtaminapi.zpncstm.mongodb.net/Node-API?retryWrites=true&w=majority')
+connect(MONGO_URL)
 .then(() => {
     console.log('connected to MongoDB')
-    app.listen(3000, ()=> {
-        console.log(`Node API app is running on port 3000`)
+    app.listen(PORT, ()=> {
+        console.log(`Node API app is running on port ${PORT}`)
     });
 }).catch((error) => {
     console.log(error)
