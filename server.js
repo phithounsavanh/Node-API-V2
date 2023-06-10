@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const productRoutes = require('./routes/productRoute');
+
 const app = express()
 
 app.use(express.json())
@@ -8,7 +9,7 @@ app.use(express.urlencoded({extended: false}))
 
 //routes
 
-app.use("/api/products", productRoutes);
+// app.use("/api/products", productRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello NODE API')
