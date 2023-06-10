@@ -6,7 +6,7 @@ const getProducts = async(req, res) => {
         const products = await Product.find({});
         res.status(200).json(products);
     } catch (error) {
-        res.status(500).json({message: error.message})
+        throw new Error('Fail to get products');
     }
 }
 
@@ -18,7 +18,7 @@ const getProduct = async(req, res) =>{
         const product = await Product.findById(id);
         res.status(200).json(product);
     } catch (error) {
-        res.status(500).json({message: error.message})
+        throw new Error('Fail to get a products');
     }
 }
 
@@ -30,7 +30,7 @@ const createProduct = async(req,res) => {
         
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({message: error.message})
+        throw new Error('Fail to create a products');
     }
 }
 
@@ -41,13 +41,14 @@ const updateProduct = async(req, res) => {
         const product = await Product.findByIdAndUpdate(id, req.body);
         // we cannot find any product in database
         if(!product){
-            return res.status(404).json({message: `cannot find any product with ID ${id}`})
+            res.status(404);
+            throw new Error(`cannot find any product with ID ${id}`);
         }
         const updatedProduct = await Product.findById(id);
         res.status(200).json(updatedProduct);
         
     } catch (error) {
-        res.status(500).json({message: error.message})
+        throw new Error('Fail to update a products');
     }
 }
 
@@ -57,12 +58,13 @@ const deleteProduct = async(req, res) =>{
         const {id} = req.params;
         const product = await Product.findByIdAndDelete(id);
         if(!product){
-            return res.status(404).json({message: `cannot find any product with ID ${id}`})
+            res.status(404);
+            throw new Error(`cannot find any product with ID ${id}`);
         }
         res.status(200).json(product);
         
     } catch (error) {
-        res.status(500).json({message: error.message})
+        throw new Error('Fail to delete a products');
     }
 }
 
